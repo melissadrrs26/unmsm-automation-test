@@ -1,8 +1,10 @@
 .venv
 venv
+.env
 __pycache__
 .vscode
 docker-compose.yml
 env*.list
 *DS_Store*
 .temp
+reports
