@@ -63,4 +63,5 @@ For local test, create .env
 5. If want report test:
 ```Dockers
    allure generate reports/allure_results -o reports/allure_report --clean
+   allure open reports/allure_report
 ```

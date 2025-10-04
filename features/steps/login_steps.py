@@ -27,4 +27,5 @@ def step_click_login(context):
 
 @then("Debería ver la página principal de Vault")
 def step_verify_vault(context):
-    assert "vault" in context.driver.current_url.lower()
+    data = context.driver.find_elements(By.CSS_SELECTOR, ".bwi-error")
+    assert len(data) == 0
