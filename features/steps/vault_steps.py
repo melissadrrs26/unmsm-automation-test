@@ -20,10 +20,9 @@ def step_impl(context, item_name):
     search_box.send_keys(item_name)
 
     # Esperar resultados
-    time.sleep(5)
-    results = driver.find_elements(By.CSS_SELECTOR, ".tw-table-fixed")
-    rows = results.find_elements(By.TAG_NAME, "tr")
-    context.item_found = rows > 0
+    time.sleep(2)
+    results = driver.find_elements(By.CSS_SELECTOR, ".tw-table-fixed tbody tr")
+    context.item_found = len(results) > 0
 
 
 @then('Debería encontrar el ítem "{item_name}"')
