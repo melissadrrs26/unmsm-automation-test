@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Calidad SILSU - SUNEDU</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .presentation-container {
+            width: 100%;
+            max-width: 1200px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .slide {
+            display: none;
+            min-height: 600px;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        .slide-header {
+            background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+            color: white;
+            padding: 30px 40px;
+        }
+
+        .slide-header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .slide-header h2 {
+            font-size: 1.5em;
+            opacity: 0.9;
+        }
+
+        .slide-content {
+            padding: 40px;
+            min-height: 500px;
+        }
+
+        .slide-footer {
+            background: #f3f4f6;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .controls {
+            background: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 2px solid #e5e7eb;
+        }
+
+        button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        button:hover:not(:disabled) {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+        }
+
+        button:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        .indicators {
+            display: flex;
+            gap: 8px;
+        }
+
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #d1d5db;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .indicator.active {
+            background: #2563eb;
+            width: 32px;
+            border-radius: 6px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .card {
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .card-blue { background: #eff6ff; border-left: 4px solid #2563eb; }
+        .card-green { background: #f0fdf4; border-left: 4px solid #16a34a; }
+        .card-red { background: #fef2f2; border-left: 4px solid #dc2626; }
+        .card-orange { background: #fff7ed; border-left: 4px solid #ea580c; }
+        .card-purple { background: #faf5ff; border-left: 4px solid #9333ea; }
+        .card-yellow { background: #fefce8; border-left: 4px solid #eab308; }
+        .card-gradient-blue {
+            background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+            color: white;
+        }
+        .card-gradient-green {
+            background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+            color: white;
+        }
+        .card-gradient-purple {
+            background: linear-gradient(135deg, #a855f7 0%, #6b21a8 100%);
+            color: white;
+        }
+        .card-gradient-orange {
+            background: linear-gradient(135deg, #f97316 0%, #c2410c 100%);
+            color: white;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+
+        th {
+            background: #1e40af;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+
+        td {
+            padding: 12px;
+            border: 1px solid #d1d5db;
+        }
+
+        tr:nth-child(even) {
+            background: #f9fafb;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .text-large {
+            font-size: 1.3em;
+            line-height: 1.6;
+        }
+
+        .text-small {
+            font-size: 0.9em;
+        }
+
+        .mt-20 { margin-top: 20px; }
+        .mb-20 { margin-bottom: 20px; }
+        
+        h3 {
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            color: #1f2937;
+        }
+
+        ul {
+            margin-left: 20px;
+        }
+
+        li {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+
+        .highlight {
+            background: #fef3c7;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin: 0 4px;
+        }
+
+        .badge-blue { background: #dbeafe; color: #1e40af; }
+        .badge-green { background: #dcfce7; color: #166534; }
+        .badge-red { background: #fee2e2; color: #991b1b; }
+        .badge-purple { background: #f3e8ff; color: #6b21a8; }
+
+        .stat-box {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .stat-number {
+            font-size: 3em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            color: #6b7280;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2, .grid-3 {
+                grid-template-columns: 1fr;
+            }
+            
+            .slide-header h1 {
+                font-size: 1.8em;
+            }
+            
+            .slide-content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Slide 1: Portada -->
+        <div class="slide active">
+            <div class="slide-header">
+                <h1>Gestión de Calidad del Sistema SILSU</h1>
+                <h2>SUNEDU - Examen Parcial</h2>
+            </div>
+            <div class="slide-content center">
+                <div style="padding: 60px 0;">
+                    <h2 style="font-size: 2.5em; color: #1e40af; margin-bottom: 30px;">
+                        Sistema de Licenciamiento Universitario
+                    </h2>
+                    <h3 style="font-size: 1.8em; color: #4f46e5; margin-bottom: 50px;">
+                        Diagnóstico Técnico y Plan de Mejora
+                    </h3>
+                    <div class="card card-blue" style="max-width: 600px; margin: 0 auto;">
+                        <p class="text-large">Aplicación de Estándares Internacionales</p>
+                        <p style="margin-top: 15px; color: #6b7280;">
+                            ISO/IEC 25010 • ISO/IEC 12207 • IEEE 730
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>SUNEDU - Gestión de Calidad de Software</span>
+                <span><strong>1 / 13</strong></span>
+            </div>
+        </div>
+
+        <!-- Slide 2: Contexto -->
+        <div class="slide">
+            <div class="slide-header">
+                <h1>Contexto del Sistema SILSU</h1>
+            </div>
+            <div class="slide-content">
+                <div class="card card-blue mb-20">
+                    <h3>🏗️ Arquitectura Actual</h3>
+                    <div class="grid-2 text-small">
+                        <div><strong>Frontend:</strong> Angular 13 + TypeScript</div>
+                        <div><strong>Backend:</strong> Spring Boot 2.7</div>
+                        <div><strong>Base de Datos:</strong> PostgreSQL 14</div>
+                        <div><strong>Móvil:</strong> Flutter (Android/iOS)</div>
+                        <div><strong>Infraestructura:</strong> Servidores PCM</div>
+                        <div><strong>CI/CD:</strong> Jenkins + Docker + GitLab</div>
+                    </div>
+                </div>
+
+                <div class="card card-red">
+                    <h3>⚠️ Situación Crítica Detectada</h3>
+                    <ul>
+                        <li><strong>Rendimiento:</strong> Respuestas lentas (&gt; 8 segundos)</li>
+                        <li><strong>Mantenibilidad:</strong> Alto acoplamiento (Complejidad Ciclomática = 25)</li>
+                        <li><strong>Confiabilidad:</strong> Fallas de sincronización móvil (5% error rate)</li>
+                        <li><strong>Calidad de Proceso:</strong> Sin QA formal ni métricas establecidas</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>SUNEDU - Gestión de Calidad de Software</span>
+                <span><strong>2 / 13</strong></span>
+            </div>
+        </div>
+
+        <!-- Slide 3: Estándares -->
+        <div class="slide">
+            <div class="slide-header">
+                <h1>PARTE 1: Diagnóstico Técnico y Estándares</h1>
+            </div>
+            <div class="slide-content">
+                <div class="card card-purple mb-20">
+                    <h3>📚 Estándares Seleccionados</h3>
+                    <div style="margin-top: 20px;">
+                        <div class="card" style="background: white; margin-bottom: 15px;">
+                            <strong style="color: #6b21a8;">1. ISO/IEC 25010:2011 (SQuaRE)</strong>
+                            <p class="text-small" style="margin-top: 8px; color: #6b7280;">
+                                Modelo de calidad del producto software
+                            </p>
+                        </div>
+                        <div class="card" style="background: white; margin-bottom: 15px;">
+                            <strong style="color: #6b21a8;">2. ISO/IEC/IEEE 12207:2017</strong>
+                            <p class="text-small" style="margin-top: 8px; color: #6b7280;">
+                                Procesos del ciclo de vida del software
+                            </p>
+                        </div>
+                        <div class="card" style="background: white;">
+                            <strong style="color: #6b21a8;">3. IEEE Std 730-2014</strong>
+                            <p class="text-small" style="margin-top: 8px; color: #6b7280;">
+                                Procesos de aseguramiento de calidad (QA)
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card card-yellow">
+                    <p><strong>💡 Justificación de la selección:</strong></p>
+                    <p style="margin-top: 10px; color: #4b5563;">
+                        Complementariedad entre calidad del producto (ISO 25010), madurez del proceso 
+                        (ISO 12207) y formalización del QA (IEEE 730)
+                    </p>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>SUNEDU - Gestión de Calidad de Software</span>
+                <span><strong>3 / 13</strong></span>
+            </div>
+        </div>
+
+        <!-- Slide 4: Mapeo -->
+        <div class="slide">
+            <div class="slide-header">
+                <h1>Mapeo de Problemas con ISO/IEC 25010</h1>
+            </div>
+            <div class="slide-content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Problema Detectado</th>
+                            <th>Indicador Actual</th>
+                            <th>Característica ISO 25010</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background: #fef2f2;">
+                            <td><strong>Rendimiento Lento</strong></td>
+                            <td>RT &gt; 8s</td>
+                            <td><strong>Eficiencia de Desempeño</strong><br>(Performance Efficiency)</td>
+                        </tr>
+                        <tr style="background: #fff7ed;">
+                            <td><strong>Mantenibilidad Baja</strong></td>
+                            <td>CC = 25</td>
+                            <td><strong>Mantenibilidad</strong><br>(Maintainability)</td>
+                        </tr>
+                        <tr style="background: #fefce8;">
+                            <td><strong>Fallas de Sincronización</strong></td>
+                            <td>Error Rate 5%</td>
+                            <td><strong>Confiabilidad</strong><br>(Reliability: Tolerancia a fallos)</td>
+                        </tr>
+                        <tr style="background: #eff6ff;">
+                            <td><strong>Sin QA Formal</strong></td>
+                            <td>Sin métricas</td>
+                            <td><strong>Calidad del Proceso</strong><br>(ISO 12207: 6.3.7, 6.3.8)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="card card-green mt-20">
+                    <h3 style="color: #166534;">✓ Acciones Técnicas Propuestas</h3>
+                    <ul class="text-small">
+                        <li><strong>Pruebas de carga:</strong> Apache JMeter para APIs críticas</li>
+                        <li><strong>Revisión de código:</strong> SonarQube en pipeline CI/CD</li>
+                        <li><strong>Observabilidad:</strong> Prometheus + Grafana + OpenTelemetry</li>
+                        <li><strong>Integración QA:</strong> Jenkins automatizado con IEEE 730</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>SUNEDU - Gestión de Calidad de Software</span>
+                <span><strong>4 / 13</strong></span>
+            </div>
+        </div>
+
+        <!-- Slide 5: Métricas -->
+        <div class="slide">
+            <div class="slide-header">
+                <h1>PARTE 2: Métricas Cuantificables</h1>
+            </div>
+            <div class="slide-content">
+                <div class="card" style="background: linear-gradient(135deg, #14b8a6 0%, #0f766e 100%); color: white; margin-bottom: 20px;">
+                    <h3 style="color: white;">🎯 Proceso de Medición (ISO 12207: 6.3.7)</h3>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr style="background: #0f766e;">
+                            <th>Característica</th>
+                            <th>Métrica Cuantificable</th>
+                            <th>Objetivo de Mejora</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong style="color: #1e40af;">Rendimiento</strong></td>
+                            <td>Tiempo de Respuesta (RT) percentil 95</td>
+                            <td style="background: #f0fdf4;"><strong>&lt; 1000 ms</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color: #ea580c;">Mantenibilidad</strong></td>
+                            <td>Complejidad Ciclomática (CC) promedio</td>
+                            <td style="background: #f0fdf4;"><strong>CC &lt; 15</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color: #dc2626;">Confiabilidad</strong></td>
+                            <td>Tasa de Error APIs<br>Tiempo Detección Fallos (Tdetect)</td>
+                            <td style="background: #f0fdf4;"><strong>&lt; 0.1%</strong><br><strong>&lt; 5 seg</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color: #9333ea;">Usabilidad</strong></td>
+                            <td>System Usability Scale (SUS)<br>Tasa de Éxito de Tareas</td>
+                            <td style="background: #f0fdf4;"><strong>&gt; 80.2</strong><br><strong>&gt; 95%</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="slide-footer">
+                <span>SUNEDU - Gestión de Calidad de Software</span>
+                <span><strong>5 / 13</strong></span>
+            </div>
+        </div>
+
+        <!-- Slide 6: Herramientas -->
+        <div class="slide">
+            <div class="slide-header">
+                <h1>Propuesta de Herramientas (FOSS)</h1>
+            </div>
+            <div class="slide-content">
+                <div class="card" style="background: #eef2ff; border-left: 4px solid #4f46e5; margin-bottom: 20px;">
+                    <h3 style="color: #3730a3;">🔧 Stack Tecnológico Open Source</h3>
+                </div>
+
+                <div class="grid-2">
+                    <div class="card" style="background: white; border-top: 4px solid #2563eb;">
+                        <strong style="color: #1e40af; font-size: 1.1em;">Apache JMeter</strong>
+                        <p class="text-small" style="margin-top: 10px;"><strong>Propósito:</strong> Pruebas de carga y rendimiento</p>
+                        <p class="text-small" style="margin-top: 8px; color: #6b7280;">
+                            Evalúa APIs REST, cuantifica logro técnico del rendimiento
+                        </p>
+                    </div>
+
+                    <div class="card" style="background: white; border-top: 4px solid #ea580c;">
+                        <strong style="color: #c2410c; font-size: 1.1em;">SonarQube</strong>
+                        <p class="text-small" style="margin-top: 10px;"><strong>Propósito:</strong> Análisis estático de código</p>
+                        <p class="text-small" style="margin-top: 8px; color: #6b7280;">
+                            Integrado en Jenkins, verifica estándares de codificación y CC
+                        </p>
+                    </div>
+
+                    <div class="card" style="background: white; border-top: 4px solid #16a34a;">
+                        <strong style="color: #166534; font-size: 1.1em;">Prometheus + Grafana</strong>
+                        <p class="text-small" style="margin-top: 10px;"><strong>Propósito:</strong> Observabilidad y monitoreo</p>
+                        <p class="text-small" style="margin-top: 8px; color: #6b7280;">
+                            Monitoreo en tiempo real, alertas cuando rendimiento fuera de parámetros
+                        </p>
+                    </div>
+
+                    <div class="card" style="background: white; border-top: 4px solid #9333ea;">
+                        <strong style="color: #6b21a8; font-size: 1.1em;">OpenTelemetry/Zipkin</strong>
+                        <p class="text-small" style="margin-top: 10px;"><strong>Propósito:</strong> Distributed Tracing</p>
+                        <p class="text-small" style="margin-top: 8px; color: #6b7280;">
+                            Diagnóstico de latencia y fallos en interacciones API
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card" style="background: #f3f4f6; margin-top: 20px;">
+                    <p class="text-small"><strong>🔧 Integración con Jenkins + IEEE 730:</strong></p>
+                    <p class="text-small" style="margin-top: 8px; color: #4b5563;">
+                        Pipeline automatizado ejecuta revisiones y pruebas, verificando adhesión 
+                        a estándares y procedimientos aplicables
+                    </p>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>SUNEDU - Gestión de Calidad de Software</span>
+                <span><strong>6 / 13</strong></span>
+            </div>
+        </div>
+
+        <!-- Slide 7: Plan de Mejora -->
+        <div class="slide">
+            <div class="slide-header">
+                <h1>Plan de Mejora Integrado</h1>
+            </div>
+            <div class="slide-content">
+                <div class="card" style="background: linear-gradient(135deg, #10b981 0%, #047857 100%); color: white; margin-bottom: 20px;">
+                    <h3 style="color: white;">📈 Estrategia de Implementación</h3>
+                </div>
+
+                <div class="card card-blue mb-20">
+                    <strong style="color: #1e40af;">Fase 1: Establecimiento de Baseline</strong>
+                    <ul class="text-small" style="margin-top: 10px;">
+                        <li>Medición inicial de RT, CC, Error Rate con herramientas FOSS</li>
+                        <li>Configuración de Prometheus + Grafana para monitoreo continuo</li>
+                        <li>Integración de SonarQube en pipeline Jenkins existente</li>
+                    </ul>
+                </div>
+
+                <div class="card card-orange mb-20">
+                    <strong style="color: #c2410c;">Fase 2: Optimización Técnica</strong>
+                    <ul class="text-small" style="margin-top: 10px;">
+                        <li>Refactorización de código con CC &gt; 15</li>
+                        <li>Optimización de consultas PostgreSQL identificadas con JMeter</li>
+                        <li>Implementación de caché para reducir RT</li>
+                    </ul>
+                </div>
+
+                <div class="card card-purple mb-20">
+                    <strong style="color: #6b21a8;">Fase 3: Formalización QA (IEEE 730)</strong>
+                    <ul class="text-small" style="margin-top: 10px;">
+                        <li>Proceso QA independiente con revisiones técnicas periódicas</li>
+                        <li>Auditorías de adhesión a estándares ISO 12207</li>
+                        <li>Seguimiento de incidentes hasta cierre formal</li>
+                    </ul>
+                </div>
+
+                <div class="card card-green">
+                    <strong style="color: #166534;">Fase 4: Mejora Continua (ISO 12207: 6.2.1)</strong>
+                    <ul class="text-small" style="margin-top: 10px;">
+                        <li>Análisis de datos históricos para retroalimentación</li>
+                        <li>Ajuste de procesos basado en métricas cuantificables</li>
+                        <li>Determinación de necesidades de avance tecnológico</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>SUNEDU - Gestión de Calidad de Software</span>
+                <span><strong>7 / 13</strong></span>
+            </div>
+        </div>
+
+        <!-- Slide 8: Relevancia Nacional -->
+        <div class="slide">
+            <div class="slide-header">
+                <h1>PARTE 3: Relevancia Nacional y Beneficios</h1>
+            </div>
+            <div class="slide-content">
+                <div class="card" style="background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%); color: white; margin-bottom: 20px;">
+                    <h3 style="color: white;">🏆 Alineación con Marco Nacional</h3>
+                </div>
+
+                <div class="grid-2">
+                    <div class="card card-blue">
+                        <strong style="color: #1e40af;">🇵🇪 Política Nacional de Transformación Digital</strong>
+                        <p class="text-small" style="margin-top: 10px; color: #374151;">
+                            Mejora en Eficiencia de Desempeño y Usabilidad fundamental para 
+                            servicios públicos digitales
+                        </p>
+                    </div>
+
+                    <div class="card card-green">
+                        <strong style="color: #166534;">📋 INACAL e ISO/IEC 25010</strong>
+                        <p class="text-small" style="margin-top: 10px; color: #374151;">
+                            Cumplimiento de normas técnicas peruanas derivadas de estándares 
+                            internacionales
+                        </p>
+                    </div>
+
+                    <div class="card card-orange">
+                        <strong style="color: #c2410c;">💰 Restricciones Operacionales</strong>
+                        <p class="text-small" style="margin-top: 10px; color: #374151;">
+                            Uso exclusivo de FOSS minimiza costos de licenciamiento y se adapta 
+                            a infraestructura PCM
+                        </p>
+                    </div>
+
+                    <div class="card card-purple">
+                        <strong style="color: #6b21a8;">🏛️ Sector Público Peruano</strong>
+                        <p class="text-small" style="margin-top: 10px; color: #374151;">
+                            Modelo replicable para otras entidades con restricciones similares 
+                            de recursos
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card card-yellow mt-20">
+                    <strong style="color: #854d0e;">⚖️ Cumplimiento Legal y Normativo</strong>
+                    <p class="text-small" style="margin-top: 10px; color: #374151;">
+                        La implementación garantiza adhesión a estándares aplicables según 
+                        ISO/IEC 12207 (6.3.8), fundamental para auditorías y transparencia 
+                        institucional
+                    </p>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>SUNEDU - Gestión de Calidad de Software</span>
+                <span><strong>8 / 13</strong></span>
+            </div>
+        </div>
+
+        <!-- Slide 9: Beneficios Institucionales -->
+        <div class="slide">
+            <div class="slide-header">
+                <h1>Beneficios Institucionales (ISO 12207)</h1>
+            </div>
+            <div class="slide-content">
+                <div class="grid-2">
+                    <div class="card card-gradient-blue">
+                        <h3 style="color: white; font-size: 1.3em;">1. Mejora Continua</h3>
+                        <p style="opacity: 0.9; margin: 10px 0;">(ISO 12207: 6.2.1)</p>
+                        <p class="text-small">
+                            Datos históricos y técnicos como retroalimentación para optimizar 
+                            procesos y tecnología
+                        </p>
+                    </div>
+
+                    <div class="card card-gradient-green">
+                        <h3 style="color: white; font-size: 1.3em;">2. Transparencia</h3>
+                        <p style="opacity: 0.9; margin: 10px 0;">(ISO 12207: 6.3.6)</p>
+                        <p class="text-small">
+                            Gestión de Información garantiza documentación actual, completa 
+                            y válida para auditorías
+                        </p>
+                    </div>
+
+                    <div class="card card-gradient-purple">
+                        <h3 style="color: white; font-size: 1.3em;">3. Confiabilidad</h3>
+                        <p style="opacity: 0.9; margin: 10px 0;">(ISO 12207: 6.3.8)</p>
+                        <p class="text-small">
+                            QA independiente asegura evaluaciones objetivas y seguimiento 
+                            formal de incidentes
+                        </p>
+                    </div>
+
+                    <div class="card card-gradient-orange">
+                        <h3 style="color: white; font-size: 1.3em;">4. Decisiones Objetivas</h3>
+                        <p style="opacity: 0.9; margin: 10px 0;">(ISO 12207: 6.3.7)</p>
+                        <p class="text-small">
+                            Métricas cuantificables permiten gestión basada en datos, 
+                            no en percepción subjetiva
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card" style="background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%); border: 2px solid #9ca3af; margin-top: 20px; padding: 25px;">
+                    <h3 class="center" style="color: #1f2937;">💡 Impacto Integral</h3>
+                    <p class="center" style="margin-top: 10px; color: #374151;">
+                        La formalización de procesos eleva la gestión del proyecto más allá 
+                        de la percepción, estableciendo bases objetivas para sostenibilidad 
+                        y confianza del sistema SILSU
+                    </p>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>SUNEDU - Gestión de Calidad de Software</span>
+                <span><strong>9 / 13</strong></span>
+            </div>
+        </div>
+
+        <!-- Slide 10: ROI -->
+        <div class="slide">
+            <div class="slide-header">
+                <h1>Retorno de Inversión y Sostenibilidad</h1>
+            </div>
+            <div class="slide-content">
+                <div class="card card-green mb-20">
+                    <h3>💰 ROI Estimado</h3>
+                </div>
+
+                <div class="grid-2 mb-20">
+                    <div class="card card-red">
+                        <h3 style="color: #991b1b;">❌ Situación Actual</h3>
+                        <ul class="text-small">
+                            <li>RT promedio: 8-10 segundos</li>
+                            <li>5% de transacciones fallan</li>
+                            <li>Sin visibilidad de problemas</li>
+                            <li>Mantenimiento costoso (CC=25)</li>
+                            <li>Satisfacción usuarios: 62%</li>
+                        </ul>
+                    </div>
+
+                    <div class="card card-green">
+                        <h3 style="color: #166534;">✅ Después de Mejoras</h3>
+                        <ul class="text-small">
+                            <li>RT promedio: &lt; 1 segundo (87.5% mejora)</li>
+                            <li>Tasa error: &lt; 0.1% (98% reducción)</li>
+                            <li>Detección problemas: &lt; 5 seg</li>
+                            <li>Código mantenible (CC &lt; 15)</li>
+                            <li>Satisfacción usuarios: &gt; 80%</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card card-blue">
+                    <h3 style="color: #1e40af;">🎯 Beneficios Tangibles</h3>
+                    <div class="grid-3 mt-20">
+                        <div class="card" style="background: white;">
+                            <strong style="color: #2563eb;">Reducción de Costos</strong>
+                            <p class="text-small" style="margin-top: 8px; color: #6b7280;">
+                                Menor tiempo de desarrollo y corrección de bugs por código más mantenible
+                            </p>
+                        </div>
+                        <div class="card" style="background: white;">
+                            <strong style="color: #16a34a;">Productividad</strong>
+                            <p class="text-small" style="margin-top: 8px; color: #6b7280;">
+                                Usuarios procesan más solicitudes por menor tiempo de espera
+                            </p>
+                        </div>
+                        <div class="card" style="background: white;">
+                            <strong style="color: #9333ea;">Confianza Institucional</strong>
+                            <p class="text-small" style="margin-top: 8px; color: #6b7280;">
+                                Mayor transparencia y trazabilidad en procesos universitarios
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card card-yellow mt-20">
+                    <p class="text-small"><strong>💰 Inversión Mínima con FOSS:</strong></p>
+                    <p class="text-small" style="margin-top: 8px; color: #374151;">
+                        Costo $0 en licencias. Solo requiere tiempo de configuración e integración 
+                        usando infraestructura PCM existente (Jenkins, Docker, GitLab)
+                    </p>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>SUNEDU - Gestión de Calidad de Software</span>
+                <span><strong>10 / 13</strong></span>
+            </div>
+        </div>
+
+        <!-- Slide 11: Conclusiones -->
+        <div class="slide">
+            <div class="slide-header">
+                <h1>Conclusiones y Recomendaciones</h1>
+            </div>
+            <div class="slide-content">
+                <div class="card" style="background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%); color: white; margin-bottom: 20px;">
+                    <h3 class="center" style="color: white; font-size: 1.5em;">Síntesis del Plan de Mejora</h3>
+                </div>
+
+                <div class="card card-blue mb-20">
+                    <h3 style="color: #1e40af;">1️⃣ Marco Normativo Sólido</h3>
+                    <p style="margin-top: 10px; color: #374151;">
+                        Combinación estratégica de ISO/IEC 25010 (calidad producto), 
+                        ISO/IEC 12207 (ciclo de vida) e IEEE 730 (QA formal) proporciona 
+                        cobertura integral
+                    </p>
+                </div>
+
+                <div class="card card-green mb-20">
+                    <h3 style="color: #166534;">2️⃣ Métricas Objetivas y Medibles</h3>
+                    <p style="margin-top: 10px; color: #374151;">
+                        Proceso de Medición (ISO 12207: 6.3.7) establece KPIs cuantificables 
+                        que permiten gestión basada en evidencia, no en percepción
+                    </p>
+                </div>
+
+                <div class="card card-purple mb-20">
+                    <h3 style="color: #6b21a8;">3️⃣ Tecnología FOSS Pragmática</h3>
+                    <p style="margin-top: 10px; color: #374151;">
+                        Stack 100% Open Source (JMeter, SonarQube, Prometheus, Grafana) 
+                        compatible con restricciones presupuestarias del sector público
+                    </p>
+                </div>
+
+                <div class="card card-orange">
+                    <h3 style="color: #c2410c;">4️⃣ Sostenibilidad Institucional</h3>
+                    <p style="margin-top: 10px; color: #374151;">
+                        Formalización de procesos QA garantiza mejora continua y trazabilidad 
+                        requerida para auditorías y transparencia
+                    </p>
+                </div>
+
+                <div class="card card-yellow mt-20">
+                    <h3 class="center" style="color: #854d0e;">⚡ Próximos Pasos Inmediatos</h3>
+                    <p class="center" style="margin-top: 10px; color: #374151;">
+                        Establecer baseline de métricas → Configurar pipeline CI/CD con herramientas 
+                        FOSS → Implementar QA independiente → Ciclo de mejora continua
+                    </p>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>SUNEDU - Gestión de Calidad de Software</span>
+                <span><strong>11 / 13</strong></span>
+            </div>
+        </div>
+
+        <!-- Slide 12: Resumen Ejecutivo -->
+        <div class="slide">
+            <div class="slide-header">
+                <h1>Resumen Ejecutivo para Autoridades</h1>
+            </div>
+            <div class="slide-content">
+                <div class="card" style="background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%); color: white; margin-bottom: 20px;">
+                    <h3 class="center" style="color: white; font-size: 1.5em;">SILSU: De Crisis a Excelencia</h3>
+                </div>
+
+                <div class="grid-2 mb-20">
+                    <div class="card" style="background: #fef2f2; border: 2px solid #fca5a5;">
+                        <h3 class="center" style="color: #991b1b;">⚠️ SITUACIÓN ACTUAL</h3>
+                        <div style="margin-top: 15px;">
+                            <div class="card" style="background: white; margin-bottom: 10px;">
+                                <strong>Crítico:</strong> 8-10 seg de espera
+                            </div>
+                            <div class="card" style="background: white; margin-bottom: 10px;">
+                                <strong>Alto Riesgo:</strong> 5% de fallas
+                            </div>
+                            <div class="card" style="background: white; margin-bottom: 10px;">
+                                <strong>Insatisfacción:</strong> 62% usuarios
+                            </div>
+                            <div class="card" style="background: white;">
+                                <strong>Sin Control:</strong> QA inexistente
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card" style="background: #f0fdf4; border: 2px solid #86efac;">
+                        <h3 class="center" style="color: #166534;">✅ META PROPUESTA</h3>
+                        <div style="margin-top: 15px;">
+                            <div class="card" style="background: white; margin-bottom: 10px;">
+                                <strong>Excelente:</strong> &lt; 1 seg respuesta
+                            </div>
+                            <div class="card" style="background: white; margin-bottom: 10px;">
+                                <strong>Confiable:</strong> &lt; 0.1% error
+                            </div>
+                            <div class="card" style="background: white; margin-bottom: 10px;">
+                                <strong>Satisfacción:</strong> &gt; 80% usuarios
+                            </div>
+                            <div class="card" style="background: white;">
+                                <strong>Certificable:</strong> QA ISO/IEEE
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card card-blue">
+                    <h3 class="center" style="color: #1e40af;">📊 Justificación Técnico-Económica</h3>
+                    <div class="grid-3" style="margin-top: 15px;">
+                        <div class="stat-box">
+                            <div class="stat-number" style="color: #2563eb;">$0</div>
+                            <div class="stat-label">Inversión en licencias (100% FOSS)</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-number" style="color: #16a34a;">87%</div>
+                            <div class="stat-label">Mejora en tiempo de respuesta</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-number" style="color: #9333ea;">98%</div>
+                            <div class="stat-label">Reducción de tasa de error</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="background: linear-gradient(135deg, #ddd6fe 0%, #c4b5fd 100%); border-left: 4px solid #4f46e5; margin-top: 20px;">
+                    <strong style="color: #3730a3;">🎯 Valor Institucional:</strong>
+                    <p style="margin-top: 10px; color: #1f2937;">
+                        <strong>Alineación estratégica:</strong> Cumple Política Nacional de Transformación 
+                        Digital, normas INACAL y estándares internacionales. 
+                        <strong style="color: #4f46e5;">Modelo replicable</strong> para todo el 
+                        sector público peruano.
+                    </p>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>SUNEDU - Gestión de Calidad de Software</span>
+                <span><strong>12 / 13</strong></span>
+            </div>
+        </div>
+
+        <!-- Slide 13: Cierre -->
+        <div class="slide">
+            <div class="slide-header">
+                <h1>¡Gracias!</h1>
+            </div>
+            <div class="slide-content center">
+                <div style="padding: 60px 20px;">
+                    <h1 style="font-size: 3.5em; color: #1e40af; margin-bottom: 40px;">
+                        ¿Preguntas?
+                    </h1>
+                    
+                    <div class="card" style="background: linear-gradient(135deg, #3b82f6 0%, #4f46e5 100%); color: white; max-width: 700px; margin: 0 auto 40px auto; padding: 40px;">
+                        <h2 style="font-size: 2em; margin-bottom: 20px; color: white;">
+                            Gestión de Calidad de Software
+                        </h2>
+                        <p style="font-size: 1.3em; margin-bottom: 30px;">
+                            Sistema SILSU - SUNEDU
+                        </p>
+                        <p style="opacity: 0.9; border-top: 1px solid rgba(255,255,255,0.3); padding-top: 20px;">
+                            Examen Parcial
+                        </p>
+                    </div>
+
+                    <div class="grid-3">
+                        <div class="card card-blue">
+                            <strong style="color: #1e40af;">ISO/IEC 25010</strong>
+                            <p class="text-small" style="color: #6b7280; margin-top: 5px;">Calidad Producto</p>
+                        </div>
+                        <div class="card card-green">
+                            <strong style="color: #166534;">ISO/IEC 12207</strong>
+                            <p class="text-small" style="color: #6b7280; margin-top: 5px;">Ciclo de Vida</p>
+                        </div>
+                        <div class="card card-purple">
+                            <strong style="color: #6b21a8;">IEEE 730</strong>
+                            <p class="text-small" style="color: #6b7280; margin-top: 5px;">QA Formal</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>SUNEDU - Gestión de Calidad de Software</span>
+                <span><strong>13 / 13</strong></span>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="controls">
+            <button onclick="prevSlide()" id="prevBtn">← Anterior</button>
+            <div class="indicators" id="indicators"></div>
+            <button onclick="nextSlide()" id="nextBtn">Siguiente →</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const indicatorsContainer = document.getElementById('indicators');
+
+        // Create indicators
+        for (let i = 0; i < totalSlides; i++) {
+            const indicator = document.createElement('div');
+            indicator.className = 'indicator';
+            indicator.onclick = () => goToSlide(i);
+            indicatorsContainer.appendChild(indicator);
+        }
+
+        function showSlide(n) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[n].classList.add('active');
+
+            // Update indicators
+            const indicators = document.querySelectorAll('.indicator');
+            indicators.forEach((indicator, index) => {
+                indicator.classList.toggle('active', index === n);
+            });
+
+            // Update buttons
+            prevBtn.disabled = n === 0;
+            nextBtn.disabled = n === totalSlides - 1;
+
+            currentSlide = n;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                showSlide(currentSlide + 1);
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                showSlide(currentSlide - 1);
+            }
+        }
+
+        function goToSlide(n) {
+            showSlide(n);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+
+        // Initialize
+        showSlide(0);
+    </script>
+</body>
+</html>
