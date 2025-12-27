@@ -2,6 +2,8 @@ from behave import given, when, then
 from selenium.webdriver.common.by import By
 import time
 
+from tests.functional.features.helpers.login_helpers import login_helper
+
 @given("El usuario abre la página de login de Bitwarden")
 def step_open_login(context):
     context.driver.get("https://vault.bitwarden.com/")
@@ -23,9 +25,13 @@ def step_enter_credentials(context, password):
 @when("Hace clic en el botón de login")
 def step_click_login(context):
     context.driver.find_element(By.CSS_SELECTOR, "button[type='submit']").click()
-    time.sleep(3)  # esperar a que cargue la página
+    time.sleep(5)  # esperar a que cargue la página
 
 @then("Debería ver la página principal de Vault")
 def step_verify_vault(context):
-    data = context.driver.find_elements(By.CSS_SELECTOR, ".bwi-error")
+    data = context.driver.find_elements(By.TAG_NAME, "bit-error")
     assert len(data) == 0
+
+@given("El usuario inicia sesión en Bitwarden")
+def step_common(context):
+    login_helper(context)   

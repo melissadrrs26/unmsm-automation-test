@@ -1,6 +1,6 @@
 # Demo: Login con Behave + Selenium en Bitwarden Vault
 
-Este proyecto es un ejemplo de automatización de login en **Bitwarden Vault** usando **Behave (Cucumber para Python)** y **Selenium**.
+ **Bitwarden Vault** usando **Behave (Cucumber para Python)** y **Selenium**.
 
 ## ⚠️ Advertencia
 No uses tus credenciales reales en este ejemplo. Usa cuentas de prueba o entornos de staging.

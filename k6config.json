@@ -1,0 +1,7 @@
+{
+  "env": {
+    "BITWARDEN_URL": "https://vault.bitwarden.com",
+    "BITWARDEN_USER": "melissadrrs@gmail.com",
+    "BITWARDEN_PASSWORD_TOKEN": "Sn0XikewfuhiMNbXk/pqBxrV7GDZ7FhmbYOirYdczko="
+  }
+}

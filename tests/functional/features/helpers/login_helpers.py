@@ -23,7 +23,7 @@ def login_helper(context):
     password_input.send_keys(context.password)
 
     driver.find_element(By.CSS_SELECTOR, "button[type='submit']").click()
-    time.sleep(3)
+    time.sleep(5)
     
     # Esperar que se cargue la bóveda (elemento característico)
     if "vault" in context.driver.current_url.lower():
