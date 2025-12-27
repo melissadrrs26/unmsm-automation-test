@@ -1,12 +1,7 @@
-# features/steps/vault_steps.py
+# features/steps/vault_search_steps.py
 from behave import given, when, then
-from helpers.login_helpers import login_helper
 from selenium.webdriver.common.by import By
 import time
-
-@given("El usuario inicia sesión en Bitwarden")
-def step_impl(context):
-    login_helper(context)
 
 
 @when('Busca el ítem "{item_name}" en la bóveda')
